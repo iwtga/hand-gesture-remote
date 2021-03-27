@@ -6,7 +6,6 @@
  |_____|_| \_\_| \_\\___/|_| \_\ |____/ \___/   /_/ LANCE
  '''
 
-#-----------------------------------------------------------------------------
 #Step - 1  -Import Libraries and capture camera
 #Step - 2  -Convert frames Into hsv
 #Step - 3  -Track hand on color basis 
@@ -18,14 +17,11 @@
 #Step - 9  -Bind hand gestures with keyboard keys.
 #Step -10  -Enjoy your output
 
-#-----------------Gesture Control Media Player---------------------------
-
 #Step -1
 import cv2
 import numpy as np 
 import math
 import pyautogui as p
-import time as t
 
 #Read Camera
 cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
