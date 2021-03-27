@@ -6,7 +6,8 @@
  |_____|_| \_\_| \_\\___/|_| \_\ |____/ \___/   /_/ LANCE
  '''
 
-#Step - 1  -Import Libraries and capture camera
+# TODO list
+# Importing Libraries and Capturing the video from webcam - Done!
 #Step - 2  -Convert frames Into hsv
 #Step - 3  -Track hand on color basis 
 #Step - 4  -Create mask on the basis of color and filter actual color 
@@ -17,23 +18,29 @@
 #Step - 9  -Bind hand gestures with keyboard keys.
 #Step -10  -Enjoy your output
 
-#Step -1
+# Importing Necessary Libraries
 import cv2
 import numpy as np 
 import math
 import pyautogui as p
 
-#Read Camera
+# Creating the capture instance for taking frames from webcam
 cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+
+# nothing function will be called continuously when the trackerbar is not used
 def nothing(x):
     pass
-#window name
+
+# Giving window-name for the trackbar
 cv2.namedWindow("Color Adjustments",cv2.WINDOW_NORMAL)
-cv2.resizeWindow("Color Adjustments", (300, 300)) 
+
+# Resizing the size of trackbar window
+cv2.resizeWindow("Color Adjustments", (300, 300))
+
+# Creating threshold trackbar for number of 
 cv2.createTrackbar("Thresh", "Color Adjustments", 0, 255, nothing)
 
-#COlor Detection Track
-
+# Adding Trackbars for color detection
 cv2.createTrackbar("Lower_H", "Color Adjustments", 0, 255, nothing)
 cv2.createTrackbar("Lower_S", "Color Adjustments", 0, 255, nothing)
 cv2.createTrackbar("Lower_V", "Color Adjustments", 0, 255, nothing)
@@ -41,9 +48,9 @@ cv2.createTrackbar("Upper_H", "Color Adjustments", 255, 255, nothing)
 cv2.createTrackbar("Upper_S", "Color Adjustments", 255, 255, nothing)
 cv2.createTrackbar("Upper_V", "Color Adjustments", 255, 255, nothing)
 
-
+# This loop will run continuously until the user doesn't press the escape key
 while True:
-    _,frame = cap.read()
+    iscamworking, frame = cap.read()        # Reads frame from webcam
     frame = cv2.flip(frame,2)
     frame = cv2.resize(frame,(600,500))
     # Get hand data from the rectangle sub window
