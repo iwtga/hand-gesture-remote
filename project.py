@@ -9,7 +9,7 @@
 # TODO list
 # Importing Libraries and Capturing the video from webcam - Done
 # Adding Trackbar to change hsv values - Done
-#Step - 2  -Convert frames Into hsv
+# Converting frame to HSV - Done
 #Step - 3  -Track hand on color basis 
 #Step - 4  -Create mask on the basis of color and filter actual color 
 #Step - 5  -Invert pixel value and then enchance the result for better output
@@ -21,9 +21,9 @@
 
 # Importing Necessary Libraries
 import cv2
+import pyautogui as p
 import numpy as np 
 import math
-import pyautogui as p
 
 # Creating the capture instance for taking frames from webcam
 cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
@@ -58,19 +58,22 @@ while True:
     cv2.rectangle(frame, (0,1), (300,500),(0, 255, 0), 0)
     cropped_image = frame[1:500, 0:300]     # Creating a cropped image of hand
     
-    #Step -2
-    hsv = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2HSV)
-    #detecting hand
-    l_h = cv2.getTrackbarPos("Lower_H", "Color Adjustments")
-    l_s = cv2.getTrackbarPos("Lower_S", "Color Adjustments")
-    l_v = cv2.getTrackbarPos("Lower_V", "Color Adjustments")
 
-    u_h = cv2.getTrackbarPos("Upper_H", "Color Adjustments")
-    u_s = cv2.getTrackbarPos("Upper_S", "Color Adjustments")
-    u_v = cv2.getTrackbarPos("Upper_V", "Color Adjustments")
-    #Step -3
-    lower_bound = np.array([l_h, l_s, l_v])
-    upper_bound = np.array([u_h, u_s, u_v])
+    hsv = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2HSV)    # Creating hsv of cropped image
+
+
+    # Hand Detection values; it will take values from tracj
+    l_hue = cv2.getTrackbarPos("Lower_H", "Color Adjustments")  # lower hue
+    l_sat = cv2.getTrackbarPos("Lower_S", "Color Adjustments")  # lower saturation
+    l_val = cv2.getTrackbarPos("Lower_V", "Color Adjustments")  # lower brightness
+
+    u_hue = cv2.getTrackbarPos("Upper_H", "Color Adjustments")  # higher hue
+    u_sat = cv2.getTrackbarPos("Upper_S", "Color Adjustments")  # high saturation
+    u_val = cv2.getTrackbarPos("Upper_V", "Color Adjustments")  # higher brightness
+
+    # Putting the values obtained from trackbar into arrays
+    lower_bound = np.array([l_hue, l_sat, l_val])   # Lower Bound Values
+    upper_bound = np.array([u_hue, u_sat, u_val])   # Upper Bound Values
     
     #Step - 4
     #Creating Mask
