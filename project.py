@@ -7,7 +7,8 @@
  '''
 
 # TODO list
-# Importing Libraries and Capturing the video from webcam - Done!
+# Importing Libraries and Capturing the video from webcam - Done
+# Adding Trackbar to change hsv values - Done
 #Step - 2  -Convert frames Into hsv
 #Step - 3  -Track hand on color basis 
 #Step - 4  -Create mask on the basis of color and filter actual color 
@@ -51,14 +52,14 @@ cv2.createTrackbar("Upper_V", "Color Adjustments", 255, 255, nothing)
 # This loop will run continuously until the user doesn't press the escape key
 while True:
     iscamworking, frame = cap.read()        # Reads frame from webcam
-    frame = cv2.flip(frame,2)
-    frame = cv2.resize(frame,(600,500))
-    # Get hand data from the rectangle sub window
-    cv2.rectangle(frame, (0,1), (300,500), (255, 0, 0), 0)
-    crop_image = frame[1:500, 0:300]
+    frame = cv2.flip(frame,2)               # Flip the frame along y axis
+    frame = cv2.resize(frame,(600,500))     # To resize the fraze
+    # Creating a sub window for hand, the border will be blue
+    cv2.rectangle(frame, (0,1), (300,500),(0, 255, 0), 0)
+    cropped_image = frame[1:500, 0:300]     # Creating a cropped image of hand
     
     #Step -2
-    hsv = cv2.cvtColor(crop_image, cv2.COLOR_BGR2HSV)
+    hsv = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2HSV)
     #detecting hand
     l_h = cv2.getTrackbarPos("Lower_H", "Color Adjustments")
     l_s = cv2.getTrackbarPos("Lower_S", "Color Adjustments")
@@ -75,7 +76,7 @@ while True:
     #Creating Mask
     mask = cv2.inRange(hsv, lower_bound, upper_bound)
     #filter mask with image
-    filtr = cv2.bitwise_and(crop_image, crop_image, mask=mask)
+    filtr = cv2.bitwise_and(cropped_image, cropped_image, mask=mask)
     
     #Step - 5
     mask1  = cv2.bitwise_not(mask)
@@ -99,8 +100,8 @@ while True:
     
         hull = cv2.convexHull(cm)
         
-        cv2.drawContours(crop_image, [cm], -1, (50, 50, 150), 2)
-        cv2.drawContours(crop_image, [hull], -1, (0, 255, 0), 2)
+        cv2.drawContours(cropped_image, [cm], -1, (50, 50, 150), 2)
+        cv2.drawContours(cropped_image, [hull], -1, (0, 255, 0), 2)
         
         #Step - 8
         # Find convexity defects
@@ -123,7 +124,7 @@ while True:
             # if angle <= 50 draw a circle at the far point
             if angle <= 50:
                 count_defects += 1
-                cv2.circle(crop_image,far,5,[255,255,255],-1)
+                cv2.circle(cropped_image,far,5,[255,255,255],-1)
         
         print("count==",count_defects)
         
