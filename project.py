@@ -10,8 +10,8 @@
 # Importing Libraries and Capturing the video from webcam - Done
 # Adding Trackbar to change hsv values - Done
 # Converting frame to HSV - Done
-#Step - 3  -Track hand on color basis 
-#Step - 4  -Create mask on the basis of color and filter actual color 
+# Tracking hand on the basis of color provided by the user - Done
+# Creating a mask to filter the values given by user and filter the frame
 #Step - 5  -Invert pixel value and then enchance the result for better output
 #Step - 6  -Find Contours for specific colored object
 #Step - 7  -Find Max area contour and draw it on live feed
@@ -75,10 +75,11 @@ while True:
     lower_bound = np.array([l_hue, l_sat, l_val])   # Lower Bound Values
     upper_bound = np.array([u_hue, u_sat, u_val])   # Upper Bound Values
     
-    #Step - 4
-    #Creating Mask
+
+    # Creating a mask to filter the values given by user and filter the frame
     mask = cv2.inRange(hsv, lower_bound, upper_bound)
-    #filter mask with image
+
+    # Filtering the original image with mask
     filtr = cv2.bitwise_and(cropped_image, cropped_image, mask=mask)
     
     #Step - 5
