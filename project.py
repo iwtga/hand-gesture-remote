@@ -102,68 +102,60 @@ while True:
         cv2.drawContours(cropped_image, [cm], -1, (50, 50, 150), 2) # drawing the max contour
         cv2.drawContours(cropped_image, [hull], -1, (0, 255, 0), 2) # this is optional just to see how camera catches the hand
         
-
-        # Finding convexity defects
+        #Step - 8
+        # Find convexity defects
         hull = cv2.convexHull(cm, returnPoints=False) # creating a hull
         defects = cv2.convexityDefects(cm, hull)    # finds the conexity defects in a hull
         count_defects = 0           # count convexity defects
-
+        #print("Area==",cv2.contourArea(hull) - cv2.contourArea(cm))
         for i in range(defects.shape[0]):
-            s,e,f,d = defects[i,0]
+            s,e,f,d = defects[i,0]      #start, end, far
            
             start = tuple(cm[s][0])
             end = tuple(cm[e][0])
             far = tuple(cm[f][0])
-            #Cosin Rule
+            # Performing cosine rule to find the angle
             a = math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2)
             b = math.sqrt((far[0] - start[0]) ** 2 + (far[1] - start[1]) ** 2)
             c = math.sqrt((end[0] - far[0]) ** 2 + (end[1] - far[1]) ** 2)
             angle = (math.acos((b ** 2 + c ** 2 - a ** 2) / (2 * b * c)) * 180) / 3.14
-            #print(angle)
-            # if angle <= 50 draw a circle at the far point
+
+            #check if it is a valid defect
             if angle <= 50:
                 count_defects += 1
                 cv2.circle(cropped_image,far,5,[255,255,255],-1)
         
-        print("count==",count_defects)
-        
         #Step - 9 
         # Print number of fingers
         if count_defects == 0:
-            
             cv2.putText(frame, " ", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2,(0,0,255),2)
         elif count_defects == 1:
-            
             p.press("space")
             cv2.putText(frame, "Play/Pause", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2,(0,0,255), 2)
         elif count_defects == 2:
             p.press("up")
-            
             cv2.putText(frame, "Volume UP", (5, 50), cv2.FONT_HERSHEY_SIMPLEX, 2,(0,0,255), 2)
         elif count_defects == 3:
             p.press("down")
-            
             cv2.putText(frame, "Volume Down", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2,(0,0,255), 2)
         elif count_defects == 4:
             p.press("right")
-            
             cv2.putText(frame, "Forward", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2,(0,0,255), 2)
         else:
             pass
-           
     except:
         pass
 
+    #step -10    
     cv2.imshow("Thresh", thresh)
-    #cv2.imshow("mask==",mask)
     #cv2.imshow("filter==",filtr)
     cv2.imshow("Result", frame)
 
     key = cv2.waitKey(25) &0xFF    
     if key == 27: 
         break
-
 cap.release()
 cv2.destroyAllWindows()
     
     
+  
