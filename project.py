@@ -13,8 +13,8 @@
 # Tracking hand on the basis of color provided by the user - Done
 # Creating a mask to filter the values given by user and filter the frame - Done
 # Inverting the pixel value for better enhanced results - Done
-#Step - 6  -Find Contours for specific colored object
-#Step - 7  -Find Max area contour and draw it on live feed
+# Find Contours - Done
+# Drawing the contour with max contour - Done
 #Step - 8  -Find Convexity detect  for counting Values and Apply Cosin method
 #Step - 9  -Bind hand gestures with keyboard keys.
 #Step -10  -Enjoy your output
@@ -88,24 +88,19 @@ while True:
     ret,thresh = cv2.threshold(mask1,m_g,255,cv2.THRESH_BINARY) # adding the threshold values into bitmap
     dilated = cv2.dilate(thresh,(3,3),iterations = 6)       # Dialating the frame
     
-    #Step -6
-    #findcontour(img,contour_retrival_mode,method)
-    cnts,hier = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    
+    # Finding contours
+    cnts,hier = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)  # finding cnt, and heirarchy
     
     try:
-        #print("try")
-         #Step -7
-         # Find contour with maximum area
-        cm = max(cnts, key=lambda x: cv2.contourArea(x))
-        #print("C==",cnts)
+        # Find contour that has the maximum area
+        cm = max(cnts, key=lambda x: cv2.contourArea(x))    # Finding contour with max area
         epsilon = 0.0005*cv2.arcLength(cm,True)
         data= cv2.approxPolyDP(cm,epsilon,True)
     
-        hull = cv2.convexHull(cm)
+        hull = cv2.convexHull(cm)       # hull is the red border around the hand this is optional
         
-        cv2.drawContours(cropped_image, [cm], -1, (50, 50, 150), 2)
-        cv2.drawContours(cropped_image, [hull], -1, (0, 255, 0), 2)
+        cv2.drawContours(cropped_image, [cm], -1, (50, 50, 150), 2) # drawing the max contour
+        cv2.drawContours(cropped_image, [hull], -1, (0, 255, 0), 2) # this is optional just to see how camera catches the hand
         
         #Step - 8
         # Find convexity defects
