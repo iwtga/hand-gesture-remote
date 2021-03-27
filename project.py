@@ -11,8 +11,8 @@
 # Adding Trackbar to change hsv values - Done
 # Converting frame to HSV - Done
 # Tracking hand on the basis of color provided by the user - Done
-# Creating a mask to filter the values given by user and filter the frame
-#Step - 5  -Invert pixel value and then enchance the result for better output
+# Creating a mask to filter the values given by user and filter the frame - Done
+# Inverting the pixel value for better enhanced results - Done
 #Step - 6  -Find Contours for specific colored object
 #Step - 7  -Find Max area contour and draw it on live feed
 #Step - 8  -Find Convexity detect  for counting Values and Apply Cosin method
@@ -83,10 +83,10 @@ while True:
     filtr = cv2.bitwise_and(cropped_image, cropped_image, mask=mask)
     
     #Step - 5
-    mask1  = cv2.bitwise_not(mask)
-    m_g = cv2.getTrackbarPos("Thresh", "Color Adjustments") #getting track bar value
-    ret,thresh = cv2.threshold(mask1,m_g,255,cv2.THRESH_BINARY)
-    dilata = cv2.dilate(thresh,(3,3),iterations = 6)
+    mask1  = cv2.bitwise_not(mask)      # performing bitwise not to invert black and white
+    m_g = cv2.getTrackbarPos("Thresh", "Color Adjustments")     # Getting threshold value from trackbar
+    ret,thresh = cv2.threshold(mask1,m_g,255,cv2.THRESH_BINARY) # adding the threshold values into bitmap
+    dilated = cv2.dilate(thresh,(3,3),iterations = 6)       # Dialating the frame
     
     #Step -6
     #findcontour(img,contour_retrival_mode,method)
