@@ -102,12 +102,12 @@ while True:
         cv2.drawContours(cropped_image, [cm], -1, (50, 50, 150), 2) # drawing the max contour
         cv2.drawContours(cropped_image, [hull], -1, (0, 255, 0), 2) # this is optional just to see how camera catches the hand
         
-        #Step - 8
-        # Find convexity defects
-        hull = cv2.convexHull(cm, returnPoints=False)
-        defects = cv2.convexityDefects(cm, hull)
-        count_defects = 0
-        #print("Area==",cv2.contourArea(hull) - cv2.contourArea(cm))
+
+        # Finding convexity defects
+        hull = cv2.convexHull(cm, returnPoints=False) # creating a hull
+        defects = cv2.convexityDefects(cm, hull)    # finds the conexity defects in a hull
+        count_defects = 0           # count convexity defects
+
         for i in range(defects.shape[0]):
             s,e,f,d = defects[i,0]
            
@@ -153,17 +153,17 @@ while True:
            
     except:
         pass
-    #step -10    
+
     cv2.imshow("Thresh", thresh)
     #cv2.imshow("mask==",mask)
-    cv2.imshow("filter==",filtr)
+    #cv2.imshow("filter==",filtr)
     cv2.imshow("Result", frame)
 
     key = cv2.waitKey(25) &0xFF    
     if key == 27: 
         break
+
 cap.release()
 cv2.destroyAllWindows()
     
     
-  
