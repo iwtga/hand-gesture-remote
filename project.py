@@ -122,6 +122,7 @@ while True:
                 count_defects += 1
                 cv2.circle(cropped_image,far,5,[255,255,255],-1)
         
+        # According to no of defects press the key
         if count_defects == 0:
             cv2.putText(frame, " ", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2,(0,0,255),2)
         elif count_defects == 1:
@@ -141,14 +142,12 @@ while True:
     except:
         pass
 
-    cv2.imshow("Thresh", thresh)
-    cv2.imshow("Result", frame)
+    cv2.imshow("Thresh", thresh)    # show the black and white frame
+    cv2.imshow("Result", frame)     # show the result frame
 
-    key = cv2.waitKey(25) &0xFF    
-    if key == 27: 
+    key = cv2.waitKey(25) &0xFF     # accept key
+    if key == 27:                   # if key is escape key
         break
 cap.release()
 cv2.destroyAllWindows()
     
-    
-  
