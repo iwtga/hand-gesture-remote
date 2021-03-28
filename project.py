@@ -15,9 +15,6 @@
 # Inverting the pixel value for better enhanced results - Done
 # Find Contours - Done
 # Drawing the contour with max contour - Done
-#Step - 8  -Find Convexity detect  for counting Values and Apply Cosin method
-#Step - 9  -Bind hand gestures with keyboard keys.
-#Step -10  -Enjoy your output
 
 # Importing Necessary Libraries
 import cv2
@@ -125,8 +122,6 @@ while True:
                 count_defects += 1
                 cv2.circle(cropped_image,far,5,[255,255,255],-1)
         
-        #Step - 9 
-        # Print number of fingers
         if count_defects == 0:
             cv2.putText(frame, " ", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2,(0,0,255),2)
         elif count_defects == 1:
@@ -146,9 +141,7 @@ while True:
     except:
         pass
 
-    #step -10    
     cv2.imshow("Thresh", thresh)
-    #cv2.imshow("filter==",filtr)
     cv2.imshow("Result", frame)
 
     key = cv2.waitKey(25) &0xFF    
